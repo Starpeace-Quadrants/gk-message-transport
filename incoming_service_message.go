@@ -10,8 +10,8 @@ import (
 // and services sending orders to other services.
 type IncomingServiceMessage struct {
 	SessionId string            `json:"session_id"` // Client Identifier
-	Topic     string            `json:"command"`    // The topic channel to send the command on
-	Command   string            `json:"body"`       // The command the client wants executed
+	Topic     string            `json:"topic"`      // The topic channel to send the command on
+	Command   string            `json:"command"`    // The command the client wants executed
 	Arguments map[string]string `json:"arguments"`  // The arguments the service may need for executing the command
 }
 
