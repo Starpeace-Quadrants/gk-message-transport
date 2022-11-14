@@ -9,11 +9,11 @@ import (
 // Used by websocket server to pass incoming client messages to a service
 // and services sending orders to other services.
 type IncomingServiceMessage struct {
-	SessionId string        `json:"session_id"` // Client Identifier
-	UserId    string        `json:"user_id"`    // USed by services to relate actions to a user
-	Topic     string        `json:"topic"`      // The topic channel to send the command on
-	Command   string        `json:"body"`       // The command the client wants executed
-	Arguments []interface{} `json:"arguments"`  // The arguments the service may need for executing the command
+	SessionId string            `json:"session_id"` // Client Identifier
+	UserId    string            `json:"user_id"`    // USed by services to relate actions to a user
+	Topic     string            `json:"topic"`      // The topic channel to send the command on
+	Command   string            `json:"body"`       // The command the client wants executed
+	Arguments map[string]string `json:"arguments"`  // The arguments the service may need for executing the command
 }
 
 // DecodeIncomingServiceMessage Convert message to a struct for usage
