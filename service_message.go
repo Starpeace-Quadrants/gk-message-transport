@@ -1,17 +1,22 @@
 package transport
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"github.com/ronappleton/gk-message-transport/storage"
+)
 
 // ServiceMessage message passing orders to a service
 // Used by websocket server to pass incoming client messages to a service
 // and services sending orders to other services.
 type ServiceMessage struct {
-	SessionId string                 `json:"session_id"` // Client Identifier
-	UserId    string                 `json:"user_id"`    // User Id used for storage
-	Topic     string                 `json:"topic"`      // The topic channel to send the command on
-	Command   string                 `json:"command"`    // The command the client wants executed
-	Arguments map[string]interface{} `json:"arguments"`  // The arguments the service may need for executing the command
-	Results   map[string]interface{} `json:"results"`    // The results of any computation
+	SessionId     string                      `json:"session_id"` // Client Identifier
+	UserId        string                      `json:"user_id"`    // User Id used for storage
+	Topic         string                      `json:"topic"`      // The topic channel to send the command on
+	Command       string                      `json:"command"`    // The command the client wants executed
+	Arguments     map[string]interface{}      `json:"arguments"`  // The arguments the service may need for executing the command
+	ArgumentStore storage.KeyValueStoreAccess `json:"-"`          // KeyValueStoreAccess version of Results for typed usage
+	Results       map[string]interface{}      `json:"results"`    // The results of any computation
+	ResultStore   storage.KeyValueStoreAccess `json:"-"`          // KeyValueStoreAccess version of Results for typed usage
 	ByteAble
 }
 
@@ -72,6 +77,11 @@ func BytesToServiceMessage(bytes []byte) ServiceMessage {
 	serviceMessage := NewServiceMessage()
 
 	_ = json.Unmarshal(bytes, &serviceMessage)
+
+	serviceMessage.ArgumentStore = storage.New()
+	serviceMessage.ArgumentStore.Populate(serviceMessage.Arguments)
+	serviceMessage.ResultStore = storage.New()
+	serviceMessage.ResultStore.Populate(serviceMessage.Results)
 
 	return serviceMessage
 }
