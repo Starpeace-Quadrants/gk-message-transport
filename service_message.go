@@ -37,12 +37,17 @@ type ByteAble interface {
 
 // NewServiceMessage Is for getting a new instance of a ServiceMessage
 func NewServiceMessage() ServiceMessage {
-	return ServiceMessage{}
+	return ServiceMessage{
+		Arguments: make(map[string]interface{}),
+		Results:   make(map[string]interface{}),
+	}
 }
 
 // NewClientMessage Is for getting a new instance of a ClientMessage
 func NewClientMessage() ClientMessage {
-	return ClientMessage{}
+	return ClientMessage{
+		Results: make(map[string]interface{}),
+	}
 }
 
 // ToBytes Is used to convert a ServiceMessage for sending to a service.
