@@ -17,7 +17,6 @@ type ServiceMessage struct {
 	ArgumentStore storage.KeyValueStoreAccess `json:"-"`          // KeyValueStoreAccess version of Results for typed usage
 	Results       map[string]interface{}      `json:"results"`    // The results of any computation
 	ResultStore   storage.KeyValueStoreAccess `json:"-"`          // KeyValueStoreAccess version of Results for typed usage
-	ByteAble
 }
 
 // ClientMessage Is a message that can be returned to the client, it is noticeable
@@ -27,7 +26,6 @@ type ClientMessage struct {
 	Topic   string                 `json:"topic"`   // The topic channel to send the command on
 	Command string                 `json:"command"` // The command the client wants executed
 	Results map[string]interface{} `json:"results"` // The results of any computation
-	ByteAble
 }
 
 // ByteAble Is to ensure that messages have a uniform method of conversion for sending.
